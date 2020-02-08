@@ -31,10 +31,10 @@ class CardTable extends Component {
                     suit: response.data.cards[0].suit,
                 }),
             }))
-        })
-        
+        })      
     }
 
+    
 
     render() {
 
