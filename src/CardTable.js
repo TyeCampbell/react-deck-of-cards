@@ -102,9 +102,12 @@ class CardTable extends Component {
                </section>
                 <section className='CardTable-lower'>
                     <p>Hand Total: {this.state.handTotal}</p>
-                    <button disabled={this.state.handTotal > 21 || this.state.handTotal === 21}onClick={this.state.handTotal === 0 ? this.drawHand : this.getCard}>{this.state.handTotal === 0 ? "Draw Hand" : "Hit Me!"}</button>
-                    {/* <button disabled={this.state.handTotal > 21 || this.state.handTotal === 21} onClick={this.getCard}>Hit Me!</button> */}
-                    <button onClick={this.holdCards}>Hold</button>
+                    <button 
+                        disabled={this.state.handTotal > 21 || this.state.handTotal === 21} 
+                        onClick={this.state.handTotal === 0 ? this.drawHand : this.getCard} 
+                        >{this.state.handTotal === 0 ? "Draw Hand" : "Hit Me!"}
+                    </button>
+                    <button onClick={this.holdCards}>{this.state.handTotal > 21 ? "New Hand" : "Hold"}</button>
                 </section>
            </div>
         )
