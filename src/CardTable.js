@@ -13,6 +13,7 @@ class CardTable extends Component {
         }
         this.getCard = this.getCard.bind(this);
         this.drawHand = this.drawHand.bind(this);
+        this.holdCards = this.holdCards.bind(this);
     }
 
     componentDidMount() {
@@ -22,8 +23,6 @@ class CardTable extends Component {
         })
 
     }
-
-
 
     getCard() {
         axios.get(`https://deckofcardsapi.com/api/deck/${this.state.deckID}/draw/?count=1`).then( response => {
@@ -48,6 +47,7 @@ class CardTable extends Component {
         let total = 0; 
 
         this.state.cardsDrawn.forEach(element => {
+            
 
             if (element.value === "KING") {
                 total += 10;
@@ -56,7 +56,7 @@ class CardTable extends Component {
             } else if (element.value === "JACK") {
                 total += 10;
             } else if ( element.value === "ACE") {
-                if (this.handTotal < 15) {
+                if (this.state.handTotal < 10) {
                     total += 11;
                 } else {
                     total += 1
@@ -69,6 +69,9 @@ class CardTable extends Component {
         this.setState({handTotal: total})
     }
 
+    holdCards() {
+        this.setState({cardsDrawn: [], handTotal: 0});
+    }
 
     render() {
 
@@ -79,12 +82,14 @@ class CardTable extends Component {
         return (
            <div>
                <section className='CardTable-upper'>
+                    {this.state.handTotal > 21 ? <h1 className='CardTable-lose'>BUST! You lose!</h1> : ""}
                     {cards}
                </section>
                 <section className='CardTable-lower'>
                     <p>Hand Total: {this.state.handTotal}</p>
-                    <button onClick={this.getCard}>Hit Me!</button>
                     <button onClick={this.drawHand}>Draw Hand</button>
+                    <button disabled={this.state.handTotal > 21} onClick={this.getCard}>Hit Me!</button>
+                    <button onClick={this.holdCards}>Hold</button>
                 </section>
            </div>
         )
