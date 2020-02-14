@@ -41,6 +41,7 @@ class CardTable extends Component {
     drawHand() {
         this.getCard();
         setTimeout(this.getCard, 500)
+        console.group("Hand");
     }
 
     handTotal() {
@@ -49,7 +50,7 @@ class CardTable extends Component {
         this.state.cardsDrawn.forEach(element => {
             
             console.log("Hand total before conditional: " + this.state.handTotal)
-            console.log("Is this an ace? " + element.value === "ACE")
+            console.log(element.value)
 
             if (element.value === "KING") {
                 total += 10;
@@ -58,7 +59,7 @@ class CardTable extends Component {
             } else if (element.value === "JACK") {
                 total += 10;
             } else if ( element.value === "ACE") {
-                if (this.state.handTotal + 11 > 21) {
+                if (total + 11 > 21) {
                     total += 1;
                 } else {
                     total += 11
@@ -71,7 +72,7 @@ class CardTable extends Component {
         this.setState({handTotal: total})
 
         console.log("Hand total after conditional & setState: " + this.state.handTotal)
-
+        console.groupEnd();
     }
 
     holdCards() {
