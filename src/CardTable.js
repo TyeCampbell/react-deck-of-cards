@@ -29,7 +29,7 @@ class CardTable extends Component {
            
             this.setState(st => ({
                 cardsDrawn: st.cardsDrawn.concat({
-                    image:response.data.cards[0].image,
+                    image: response.data.cards[0].image,
                     value: response.data.cards[0].value,
                     suit: response.data.cards[0].suit,
                 }),
@@ -41,38 +41,72 @@ class CardTable extends Component {
     drawHand() {
         this.getCard();
         setTimeout(this.getCard, 500)
-        console.group("Hand");
     }
 
     handTotal() {
-        let total = 0; 
+        
+        let hand = []
+        
+        let aces = []
 
-        this.state.cardsDrawn.forEach(element => {
-            
-            console.log("Hand total before conditional: " + this.state.handTotal)
-            console.log(element.value)
+        this.state.cardsDrawn.forEach(card => {
+            if (card.value === "ACE") { 
+                aces.push(card.value) 
+            } else {
+                hand.push(card.value)
+            }
+        })
 
-            if (element.value === "KING") {
+        const combinedHand = hand.concat(aces)
+
+        console.log(combinedHand);
+
+        let total = 0;
+
+        combinedHand.forEach(element => {
+
+            if (element === "KING") {
                 total += 10;
-            } else if (element.value === "QUEEN") {
+            } else if (element === "QUEEN") {
                 total += 10;
-            } else if (element.value === "JACK") {
+            } else if (element === "JACK") {
                 total += 10;
-            } else if ( element.value === "ACE") {
+            } else if ( element === "ACE") {
                 if (total + 11 > 21) {
                     total += 1;
                 } else {
                     total += 11
                 }    
             } else {
-                total += parseInt(element.value);
+                total += parseInt(element);
             }
         })
         //return total;
         this.setState({handTotal: total})
 
-        console.log("Hand total after conditional & setState: " + this.state.handTotal)
-        console.groupEnd();
+        // let total = 0; 
+
+        // this.state.cardsDrawn.forEach(element => {
+
+        //     if (element.value === "KING") {
+        //         total += 10;
+        //     } else if (element.value === "QUEEN") {
+        //         total += 10;
+        //     } else if (element.value === "JACK") {
+        //         total += 10;
+        //     } else if ( element.value === "ACE") {
+        //         if (total + 11 > 21) {
+        //             total += 1;
+        //         } else {
+        //             total += 11
+        //         }    
+        //     } else {
+        //         total += parseInt(element.value);
+        //     }
+        // })
+        // //return total;
+        // this.setState({handTotal: total})
+
     }
 
     holdCards() {
